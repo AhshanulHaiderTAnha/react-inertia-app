@@ -27,7 +27,6 @@ To get started, follow these steps:
 
 2. Install the Inertia.js composer dependency:
 
-  ```bash
   $ composer require inertiajs/inertia-laravel
 
 3. Rename the file resources/app/welcome.blade.php to app.blade.php and paste the following code inside:
@@ -49,7 +48,6 @@ To get started, follow these steps:
 
 4. Generate a middleware for Inertia using the following command:
     
-    ```php
     $ php artisan inertia:middleware
 
 5. Open the app/Http/Kernel.php file, go to the web middleware group, and add the generated middleware to the group:
@@ -130,7 +128,7 @@ To get started, follow these steps:
 
 ## Running the Application
 
-    Now, you're ready to run the local server and Vite in the terminal:
+    Now, youre ready to run the local server and Vite in the terminal:
 
     $ php artisan serve
     $ npm run dev
@@ -138,4 +136,4 @@ To get started, follow these steps:
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
