@@ -93,7 +93,7 @@ To get started, follow these steps:
     import {createRoot} from 'react-dom/client'
     import {createInertiaApp } from '@inertiajs/react'
     import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers'
-
+    
     createInertiaApp({
         // Below you can see that we are going to get all React components from resources/js/Pages folder
         resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`,import.meta.glob('./Pages/**/*.jsx')),
@@ -119,6 +119,7 @@ To get started, follow these steps:
     Open routes/web.php and try to render Test.jsx on the homepage:
 
     ```php
+    <?php
 
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia; // We are going to use this class to render React components
@@ -129,10 +130,8 @@ To get started, follow these steps:
 
 ## Running the Application
 
-    Now youre ready to run the local server and Vite in the terminal:
+    Now, you're ready to run the local server and Vite in the terminal:
 
-    ```bash
-    
     $ php artisan serve
     $ npm run dev
 
