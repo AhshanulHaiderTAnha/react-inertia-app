@@ -30,7 +30,8 @@ To get started, follow these steps:
   $ composer require inertiajs/inertia-laravel
 
 3. Rename the file resources/app/welcome.blade.php to app.blade.php and paste the following code inside:
-
+    
+    ```html
     <!DOCTYPE html>
     <html>
         <head>
@@ -50,7 +51,8 @@ To get started, follow these steps:
     $ php artisan inertia:middleware
 
 5. Open the app/Http/Kernel.php file, go to the web middleware group, and add the generated middleware to the group:
-
+    
+    ```php
     // ...
     'web' => [
         // ...
@@ -66,6 +68,7 @@ To get started, follow these steps:
 
 2. Configure Vite in the vite.config.js file:
 
+    ```javascript
     import { defineConfig } from 'vite';
     import laravel from 'laravel-vite-plugin';
     import react from '@vitejs/plugin-react';
@@ -82,6 +85,7 @@ To get started, follow these steps:
 
 3.  Rename the app.js file to app.jsx and configure it:
 
+    ```javascript
     import React from 'react'
     import {createRoot} from 'react-dom/client'
     import {createInertiaApp } from '@inertiajs/inertia-react'
@@ -97,6 +101,7 @@ To get started, follow these steps:
 
 4. Create a Pages folder inside the js folder, and inside this folder, create a test component named Test.jsx:
 
+    ```javascript
     import React, { useState } from 'react';
     const Test = () => {
         return (
@@ -110,6 +115,7 @@ To get started, follow these steps:
 
     Open routes/web.php and try to render Test.jsx on the homepage:
 
+    ```php
     <?php
 
     use Illuminate\Support\Facades\Route;
