@@ -1,66 +1,143 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Laravel React Inertia App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a basic setup for a Laravel application with React using the Inertia.js stack. It allows you to build dynamic web applications with the power of React on the frontend and Laravel on the backend.
+Getting Started
+Installation
 
-## About Laravel
+To get started, follow these steps:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    Clone this repository or create a new Laravel application using the Laravel CLI:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+bash
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+$ composer create-project laravel/laravel react-inertia-app
+# Or you can just use Laravel CLI
+$ laravel new react-inertia-app
+$ cd react-inertia-app
 
-## Learning Laravel
+    Install the Inertia.js composer dependency:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+bash
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+$ composer require inertiajs/inertia-laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Rename the file resources/app/welcome.blade.php to app.blade.php and paste the following code inside:
 
-## Laravel Sponsors
+html
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- ... (other meta tags) -->
+        @viteReactRefresh 
+        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+        <!-- As you can see, we will use vite with jsx syntax for React-->
+        @inertiaHead
+    </head>
+    <body>
+        @inertia
+    </body>
+</html>
 
-### Premium Partners
+    Generate a middleware for Inertia using the following command:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+bash
 
-## Contributing
+$ php artisan inertia:middleware
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    Open the app/Http/Kernel.php file, go to the web middleware group, and add the generated middleware to the group:
 
-## Code of Conduct
+php
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+// ...
+'web' => [
+    // ...
+    \App\Http\Middleware\HandleInertiaRequests::class,
+],
+// ...
 
-## Security Vulnerabilities
+Client-side Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    Install all dependencies needed for the client-side:
 
-## License
+bash
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+$ npm install @inertiajs/inertia-react @inertiajs/react @vitejs/plugin-react react react-dom
+
+    Configure Vite in the vite.config.js file:
+
+javascript
+
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [
+        react(), // React plugin that we installed for vite.js
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});
+
+    Rename the app.js file to app.jsx and configure it:
+
+jsx
+
+import React from 'react'
+import {createRoot} from 'react-dom/client'
+import {createInertiaApp } from '@inertiajs/inertia-react'
+import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers'
+
+createInertiaApp({
+    // Below you can see that we are going to get all React components from resources/js/Pages folder
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`,import.meta.glob('./Pages/**/*.jsx')),
+    setup({ el, App, props }) {
+        createRoot(el).render(<App {...props} />)
+    },
+})
+
+    Create a Pages folder inside the js folder, and inside this folder, create a test component named Test.jsx:
+
+jsx
+
+import React, { useState } from 'react';
+
+const Test = () => {
+    return (
+        <h1>This is test component</h1>
+    )
+}
+
+export default Test
+
+Render Component
+
+Open routes/web.php and try to render Test.jsx on the homepage:
+
+php
+
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia; // We are going to use this class to render React components
+
+Route::get('/', function () {
+    return Inertia::render('Test'); // This will get component Test.jsx from the resources/js/Pages/Test.jsx
+});
+
+Running the Application
+
+Now, you're ready to run the local server and Vite in the terminal:
+
+bash
+
+$ php artisan serve
+$ npm run dev
+
+Visit localhost:8000 and if you see the content of the test component, that means everything is set up successfully! 😎
+License
+
+This project is open-source and available under the MIT License. Feel free to use it and modify it according to your needs. Happy coding! 🚀
