@@ -27,6 +27,7 @@ To get started, follow these steps:
 
 2. Install the Inertia.js composer dependency:
 
+  ```bash
   $ composer require inertiajs/inertia-laravel
 
 3. Rename the file resources/app/welcome.blade.php to app.blade.php and paste the following code inside:
@@ -47,7 +48,8 @@ To get started, follow these steps:
     </html>
 
 4. Generate a middleware for Inertia using the following command:
-
+    
+    ```php
     $ php artisan inertia:middleware
 
 5. Open the app/Http/Kernel.php file, go to the web middleware group, and add the generated middleware to the group:
@@ -64,7 +66,8 @@ To get started, follow these steps:
 
 1. Install all dependencies needed for the client-side:
 
-    $ npm install @inertiajs/inertia-react @inertiajs/react @vitejs/plugin-react react react-dom
+    ```bash
+    $ npm install @inertiajs/react @vitejs/plugin-react react react-dom
 
 2. Configure Vite in the vite.config.js file:
 
@@ -88,7 +91,7 @@ To get started, follow these steps:
     ```javascript
     import React from 'react'
     import {createRoot} from 'react-dom/client'
-    import {createInertiaApp } from '@inertiajs/inertia-react'
+    import {createInertiaApp } from '@inertiajs/react'
     import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers'
 
     createInertiaApp({
@@ -116,7 +119,6 @@ To get started, follow these steps:
     Open routes/web.php and try to render Test.jsx on the homepage:
 
     ```php
-    <?php
 
     use Illuminate\Support\Facades\Route;
     use Inertia\Inertia; // We are going to use this class to render React components
@@ -127,8 +129,10 @@ To get started, follow these steps:
 
 ## Running the Application
 
-    Now, you're ready to run the local server and Vite in the terminal:
+    Now youre ready to run the local server and Vite in the terminal:
 
+    ```bash
+    
     $ php artisan serve
     $ npm run dev
 
